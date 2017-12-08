@@ -794,6 +794,8 @@ static int lmpack_session_new(lua_State *L)
   rv->L = L;
   luaL_getmetatable(L, SESSION_META_NAME);
   lua_setmetatable(L, -2);
+
+  rv->reg = LUA_NOREF;
 #ifndef MPACK_DEBUG_REGISTRY_LEAK
   lua_newtable(L);
   rv->reg = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -802,6 +804,7 @@ static int lmpack_session_new(lua_State *L)
   rv->unpacked.args_or_result = LUA_NOREF;
   rv->unpacked.method_or_error = LUA_NOREF;
   rv->unpacked.type = MPACK_EOF;
+  memset(&rv->unpacked.msg, 0, sizeof(rv->unpacked.msg));
 
   if (lua_istable(L, 1)) {
     /* parse options */
