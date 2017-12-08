@@ -249,7 +249,7 @@ static int lmpack_unpacker_new(lua_State *L)
     return luaL_error(L, "expecting at most 1 table argument"); 
 
   rv = lua_newuserdata(L, sizeof(*rv));
-  rv->parser = malloc(sizeof(*rv->parser));
+  rv->parser = calloc(1, sizeof(*rv->parser));
   if (!rv->parser) return luaL_error(L, "Failed to allocate memory");
   mpack_parser_init(rv->parser, 0);
   rv->parser->data.p = rv;
@@ -486,7 +486,7 @@ static int lmpack_packer_new(lua_State *L)
     return luaL_error(L, "expecting at most 1 table argument"); 
 
   rv = lua_newuserdata(L, sizeof(*rv));
-  rv->parser = malloc(sizeof(*rv->parser));
+  rv->parser = calloc(1, sizeof(*rv->parser));
   if (!rv->parser) return luaL_error(L, "failed to allocate parser memory");
   mpack_parser_init(rv->parser, 0);
   rv->parser->data.p = rv;
@@ -785,7 +785,7 @@ static int lmpack_packer_pack(lua_State *L)
 static int lmpack_session_new(lua_State *L)
 {
   Session *rv = lua_newuserdata(L, sizeof(*rv));
-  rv->session = malloc(sizeof(*rv->session));
+  rv->session = calloc(1, sizeof(*rv->session));
   if (!rv->session) return luaL_error(L, "Failed to allocate memory");
   mpack_rpc_session_init(rv->session, 0);
   rv->L = L;
