@@ -259,6 +259,7 @@ static int lmpack_unpacker_new(lua_State *L)
   luaL_getmetatable(L, UNPACKER_META_NAME);
   lua_setmetatable(L, -2);
 
+  rv->reg = LUA_NOREF;
 #ifndef MPACK_DEBUG_REGISTRY_LEAK
   lua_newtable(L);
   rv->reg = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -497,11 +498,13 @@ static int lmpack_packer_new(lua_State *L)
   luaL_getmetatable(L, PACKER_META_NAME);
   lua_setmetatable(L, -2);
 
+  rv->reg = LUA_NOREF;
 #ifndef MPACK_DEBUG_REGISTRY_LEAK
   lua_newtable(L);
   rv->reg = luaL_ref(L, LUA_REGISTRYINDEX);
 #endif
   rv->ext = LUA_NOREF;
+  rv->root = LUA_NOREF;
 
   if (lua_istable(L, 1)) {
     /* parse options */
